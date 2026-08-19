@@ -2,7 +2,7 @@
   "name": "Aventio IO — Webinar Financial Model",
   "short_name": "Webinar Model",
   "description": "Live webinar funnel financial model for Aventio IO.",
-  "start_url": ".index.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0a0a0c",
