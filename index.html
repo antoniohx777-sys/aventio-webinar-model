@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Aventio IO — Webinar Financial Model</title>
+<meta name="description" content="Live webinar funnel financial model for Aventio IO.">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Webinar Model">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0c;
+    --panel:#141317;
+    --panel-2:#1b191f;
+    --line:#2b2830;
+    --line-soft:#221f26;
+    --orange:#ff6a1a;
+    --orange-dim:#c9530f;
+    --amber:#ffb238;
+    --ink:#f4f0e8;
+    --muted:#8d8894;
+    --muted-2:#5f5b64;
+    --red:#ff5b52;
+    --green:#5ee6a0;
+    --ring1:#33231a;
+    --ring2:#552c14;
+    --ring3:#8a3a12;
+    --ring4:#d15413;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 600px at 85% -10%, rgba(255,106,26,0.08), transparent 60%),
+      radial-gradient(800px 500px at -10% 110%, rgba(255,178,56,0.05), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    padding:36px 28px 80px;
+    padding-left:max(28px, env(safe-area-inset-left));
+    padding-right:max(28px, env(safe-area-inset-right));
+    padding-bottom:max(80px, env(safe-area-inset-bottom));
+    min-height:100vh;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:1280px;margin:0 auto;}
+  @media (max-width:600px){
+    body{padding:22px 16px 60px;}
+    .card{padding:16px 16px 18px;border-radius:12px;}
+    .stats{gap:10px;}
+    .stat{padding:13px 14px;}
+    .stat-value{font-size:21px;}
+    .grid{gap:14px;}
+    .tables{gap:12px;}
+    h1{font-size:26px;}
+    .sub{font-size:13.5px;margin-bottom:24px;}
+  }
+
+  /* header */
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--orange);margin:0 0 10px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--orange);display:inline-block;}
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(28px,4vw,44px);
+    font-weight:700;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  h1 span{color:var(--orange);}
+  .sub{color:var(--muted);font-size:14.5px;max-width:640px;line-height:1.55;margin:0 0 32px;}
+
+  /* layout */
+  .grid{
+    display:grid;
+    grid-template-columns:340px 1fr;
+    gap:20px;
+    align-items:start;
+  }
+  @media (max-width:980px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 20px 22px;
+  }
+  .card + .card{margin-top:16px;}
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .card-title{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  .card-title b{color:var(--ink);}
+  .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.08em;
+    color:var(--orange);
+    background:rgba(255,106,26,0.1);
+    border:1px solid rgba(255,106,26,0.25);
+    padding:3px 8px;border-radius:20px;
+  }
+
+  /* inputs */
+  .field{margin-bottom:13px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:12.5px;color:var(--muted);margin-bottom:6px;
+  }
+  .field label .val{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--amber);font-size:12.5px;font-weight:600;
+  }
+  .input-row{position:relative;}
+  .prefix{
+    position:absolute;left:12px;top:50%;transform:translateY(-50%);
+    color:var(--muted-2);font-family:'IBM Plex Mono',monospace;font-size:13px;
+    pointer-events:none;
+  }
+  input[type=number]{
+    width:100%;
+    background:#0e0d10;
+    border:1px solid var(--line);
+    color:var(--ink);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:16px;font-weight:500;
+    padding:11px 10px 11px 12px;
+    border-radius:8px;
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+    -moz-appearance:textfield;
+  }
+  /* 16px min font-size on inputs prevents iOS Safari from auto-zooming on focus */
+  input[type=number].has-prefix{padding-left:22px;}
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+  input[type=number]:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,26,0.15);}
+  input[readonly]{color:var(--muted);background:#0b0a0d;}
+
+  .divider{
+    height:1px;background:var(--line-soft);margin:16px 0;
+  }
+  .mini-note{
+    font-size:11px;color:var(--muted-2);margin-top:10px;line-height:1.5;
+  }
+  .validation{
+    display:flex;align-items:center;gap:7px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;color:var(--green);
+    margin-top:12px;
+  }
+  .validation .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);}
+
+  /* stat strip */
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;
+  }
+  @media (max-width:700px){ .stats{grid-template-columns:repeat(2,1fr);} }
+  .stat{
+    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+    position:relative;overflow:hidden;
+  }
+  .stat.primary{border-color:rgba(255,106,26,0.4);}
+  .stat.primary::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(120px 80px at 90% 0%, rgba(255,106,26,0.18), transparent 70%);
+    pointer-events:none;
+  }
+  .stat-label{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+  }
+  .stat-value{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:26px;letter-spacing:-0.01em;
+  }
+  .stat-value.orange{color:var(--orange);}
+  .stat-value.green{color:var(--green);}
+  .stat-value.red{color:var(--red);}
+  .stat-foot{font-size:11px;color:var(--muted-2);margin-top:6px;font-family:'IBM Plex Mono',monospace;}
+
+  /* funnel diagram card */
+  .funnel-card{
+    display:grid;grid-template-columns:1fr 300px;gap:8px;align-items:center;
+  }
+  @media (max-width:760px){ .funnel-card{grid-template-columns:1fr;} }
+  .funnel-svg-wrap{display:flex;justify-content:center;padding:6px 0;}
+  .side-legend{display:flex;flex-direction:column;gap:10px;}
+  .legend-row{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 10px;border:1px solid var(--line-soft);border-radius:10px;
+    background:rgba(255,255,255,0.015);
+  }
+  .swatch{width:11px;height:11px;border-radius:3px;flex:none;}
+  .legend-text{flex:1;}
+  .legend-name{font-size:11.5px;color:var(--muted);font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+  .legend-val{font-size:14.5px;font-weight:600;font-family:'IBM Plex Mono',monospace;}
+  .legend-pct{font-size:11px;color:var(--amber);font-family:'IBM Plex Mono',monospace;}
+
+  .stage-label{font-family:'IBM Plex Mono',monospace;fill:var(--muted);font-size:10px;letter-spacing:.06em;}
+  .stage-value{font-family:'IBM Plex Mono',monospace;fill:var(--ink);font-size:13px;font-weight:700;}
+  .stage-pct{font-family:'IBM Plex Mono',monospace;fill:var(--amber);font-size:10px;font-weight:600;}
+  .center-label{font-family:'Space Grotesk',sans-serif;font-weight:700;fill:var(--ink);}
+  .center-sub{font-family:'IBM Plex Mono',monospace;fill:var(--muted);}
+
+  /* tables */
+  .tables{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px;}
+  @media (max-width:980px){ .tables{grid-template-columns:1fr;} }
+  table{width:100%;border-collapse:collapse;}
+  tr{border-bottom:1px solid var(--line-soft);}
+  tr:last-child{border-bottom:none;}
+  td{padding:9px 2px;font-size:12.8px;}
+  td.k{color:var(--muted);}
+  td.v{
+    text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--ink);
+  }
+  td.v.accent{color:var(--orange);}
+  td.v.amber{color:var(--amber);}
+
+  .revenue-mix{display:flex;gap:16px;align-items:center;margin-top:6px;}
+  .mix-bar{flex:1;height:10px;border-radius:6px;overflow:hidden;display:flex;background:#0e0d10;border:1px solid var(--line-soft);}
+  .mix-ht{background:linear-gradient(90deg,var(--orange),var(--orange-dim));}
+  .mix-ds{background:linear-gradient(90deg,var(--amber),#a8781f);}
+
+  footer{
+    margin-top:34px;padding-top:18px;border-top:1px solid var(--line-soft);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-2);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">AVENTIO IO · GROWTH OPERATING MODEL</div>
+  <h1>Webinar Financial <span>Model</span></h1>
+  <p class="sub">Live model of the ad → registration → attendee → booked call → close pipeline. Edit any input on the left — every calculation, the funnel diagram, and the break-even analysis update immediately.</p>
+
+  <!-- STAT STRIP -->
+  <div class="stats">
+    <div class="stat primary">
+      <div class="stat-label">Total Revenue</div>
+      <div class="stat-value orange" id="statRevenue">$0</div>
+      <div class="stat-foot" id="statRevenueFoot">HT + downsell cash collected</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Net Profit</div>
+      <div class="stat-value" id="statProfit">$0</div>
+      <div class="stat-foot" id="statProfitFoot">Revenue − total cost</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">ROAS / Net ROAS</div>
+      <div class="stat-value" id="statRoas">0.00x</div>
+      <div class="stat-foot" id="statRoasFoot">Net ROAS —</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">CPA</div>
+      <div class="stat-value" id="statCpa">$0</div>
+      <div class="stat-foot">Ad spend ÷ underlying sales</div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- LEFT: INPUTS -->
+    <div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">01 · <b>Marketing Inputs</b></div>
+          <div class="tag">EDITABLE</div>
+        </div>
+
+        <div class="field">
+          <label>Ad Spend <span class="val" id="lbl_adSpend">$5,000</span></label>
+          <div class="input-row"><span class="prefix">$</span>
+            <input type="number" id="adSpend" class="has-prefix" value="5000" min="0" step="100">
+          </div>
+        </div>
+        <div class="field">
+          <label>Cost Per Webinar Registration <span class="val" id="lbl_cpr">$20.00</span></label>
+          <div class="input-row"><span class="prefix">$</span>
+            <input type="number" id="cpr" class="has-prefix" value="20" min="0.01" step="0.5">
+          </div>
+        </div>
+        <div class="field">
+          <label>Webinar Show Rate <span class="val" id="lbl_showRate">30.0%</span></label>
+          <div class="input-row">
+            <input type="number" id="showRate" value="30" min="0" max="100" step="1">
+          </div>
+        </div>
+        <div class="field">
+          <label>Booked Call Rate From Attendees <span class="val" id="lbl_bookedCallRate">30.0%</span></label>
+          <div class="input-row">
+            <input type="number" id="bookedCallRate" value="30" min="0" max="100" step="1">
+          </div>
+        </div>
+        <div class="field">
+          <label>Booked Call Show Rate <span class="val" id="lbl_bookedShowRate">70.0%</span></label>
+          <div class="input-row">
+            <input type="number" id="bookedShowRate" value="70" min="0" max="100" step="1">
+          </div>
+        </div>
+        <div class="field">
+          <label>Close Rate From Attended Calls <span class="val" id="lbl_closeRate">30.0%</span></label>
+          <div class="input-row">
+            <input type="number" id="closeRate" value="30" min="0" max="100" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">02 · <b>Offer / Revenue Inputs</b></div>
+          <div class="tag">EDITABLE</div>
+        </div>
+        <div class="field">
+          <label>High Ticket % <span class="val" id="lbl_htPct">70.0%</span></label>
+          <div class="input-row">
+            <input type="number" id="htPct" value="70" min="0" max="100" step="1">
+          </div>
+        </div>
+        <div class="field">
+          <label>Downsell % <span class="val" id="lbl_dsPct">30.0%</span></label>
+          <div class="input-row">
+            <input type="number" id="dsPct" value="30" readonly>
+          </div>
+        </div>
+        <div class="field">
+          <label>High Ticket Cash Collected / Sale <span class="val" id="lbl_htCash">$4,000</span></label>
+          <div class="input-row"><span class="prefix">$</span>
+            <input type="number" id="htCash" class="has-prefix" value="4000" min="0" step="50">
+          </div>
+        </div>
+        <div class="field">
+          <label>Downsell Cash Collected / Sale <span class="val" id="lbl_dsCash">$1,500</span></label>
+          <div class="input-row"><span class="prefix">$</span>
+            <input type="number" id="dsCash" class="has-prefix" value="1500" min="0" step="50">
+          </div>
+        </div>
+        <div class="validation"><span class="dot"></span> Mix Validation: OK — High Ticket % + Downsell % = 100%</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">03 · <b>Additional Costs</b></div>
+          <div class="tag">EDITABLE</div>
+        </div>
+        <div class="field">
+          <label>Fixed Costs <span class="val" id="lbl_fixed">$0</span></label>
+          <div class="input-row"><span class="prefix">$</span>
+            <input type="number" id="fixed" class="has-prefix" value="0" min="0" step="50">
+          </div>
+        </div>
+        <div class="field">
+          <label>Team / Sales Costs <span class="val" id="lbl_team">$0</span></label>
+          <div class="input-row"><span class="prefix">$</span>
+            <input type="number" id="team" class="has-prefix" value="0" min="0" step="50">
+          </div>
+        </div>
+        <div class="field">
+          <label>Other Costs <span class="val" id="lbl_other">$0</span></label>
+          <div class="input-row"><span class="prefix">$</span>
+            <input type="number" id="other" class="has-prefix" value="0" min="0" step="50">
+          </div>
+        </div>
+        <div class="mini-note">All pipeline counts retain decimal precision internally. Display formatting rounds them visually to whole numbers, matching the source model.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: DIAGRAM + TABLES -->
+    <div>
+      <div class="card funnel-card">
+        <div class="funnel-svg-wrap">
+          <svg id="funnelSvg" viewBox="0 0 620 460" width="100%" style="max-width:600px;"></svg>
+        </div>
+        <div class="side-legend" id="sideLegend"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Revenue Mix</div>
+          <div class="tag" id="revenueMixTag">$0 total</div>
+        </div>
+        <div class="revenue-mix">
+          <div class="mix-bar"><div class="mix-ht" id="mixHtBar" style="width:70%"></div><div class="mix-ds" id="mixDsBar" style="width:30%"></div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;">
+          <span style="color:var(--orange)">● High Ticket — <span id="mixHtVal">$0</span></span>
+          <span style="color:var(--amber)">● Downsell — <span id="mixDsVal">$0</span></span>
+        </div>
+      </div>
+
+      <div class="tables">
+        <div class="card">
+          <div class="card-title" style="margin-bottom:10px;">Financial Summary</div>
+          <table>
+            <tr><td class="k">Total Revenue</td><td class="v accent" id="t_revenue">—</td></tr>
+            <tr><td class="k">Ad Spend</td><td class="v" id="t_adspend">—</td></tr>
+            <tr><td class="k">Fixed Costs</td><td class="v" id="t_fixed">—</td></tr>
+            <tr><td class="k">Team Costs</td><td class="v" id="t_team">—</td></tr>
+            <tr><td class="k">Other Costs</td><td class="v" id="t_other">—</td></tr>
+            <tr><td class="k">Total Cost</td><td class="v" id="t_totalcost">—</td></tr>
+            <tr><td class="k">Net Profit</td><td class="v accent" id="t_netprofit">—</td></tr>
+            <tr><td class="k">ROAS</td><td class="v amber" id="t_roas">—</td></tr>
+            <tr><td class="k">Net ROAS</td><td class="v amber" id="t_netroas">—</td></tr>
+            <tr><td class="k">Revenue / Registration</td><td class="v" id="t_rpr">—</td></tr>
+            <tr><td class="k">Revenue / Attendee</td><td class="v" id="t_rpa">—</td></tr>
+            <tr><td class="k">Revenue / Booked Call</td><td class="v" id="t_rpbc">—</td></tr>
+            <tr><td class="k">Revenue / Attended Call</td><td class="v" id="t_rpac">—</td></tr>
+            <tr><td class="k">Avg Revenue / Sale</td><td class="v accent" id="t_avgrev">—</td></tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="margin-bottom:10px;">Unit Economics</div>
+          <table>
+            <tr><td class="k">Cost / Registration</td><td class="v" id="u_reg">—</td></tr>
+            <tr><td class="k">Cost / Attendee</td><td class="v" id="u_att">—</td></tr>
+            <tr><td class="k">Cost / Booked Call</td><td class="v" id="u_bc">—</td></tr>
+            <tr><td class="k">Cost / Attended Call</td><td class="v" id="u_ac">—</td></tr>
+            <tr><td class="k">Cost / Sale (CPA)</td><td class="v amber" id="u_cpa">—</td></tr>
+          </table>
+          <div class="card-title" style="margin:18px 0 10px;">Break-Even Analysis</div>
+          <table>
+            <tr><td class="k">Contribution Rev / Sale</td><td class="v" id="b_contrib">—</td></tr>
+            <tr><td class="k">Total Non-Ad Costs</td><td class="v" id="b_nonad">—</td></tr>
+            <tr><td class="k">Max Allowable CPA</td><td class="v accent" id="b_maxcpa">—</td></tr>
+            <tr><td class="k">Break-Even Ad Spend</td><td class="v" id="b_beadspend">—</td></tr>
+            <tr><td class="k">Break-Even Registrations</td><td class="v" id="b_bereg">—</td></tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="margin-bottom:10px;">Pipeline Counts</div>
+          <table>
+            <tr><td class="k">Webinar Registrations</td><td class="v" id="p_reg">—</td></tr>
+            <tr><td class="k">Webinar Attendees</td><td class="v" id="p_att">—</td></tr>
+            <tr><td class="k">Booked Calls</td><td class="v" id="p_bc">—</td></tr>
+            <tr><td class="k">Attended Calls</td><td class="v" id="p_ac">—</td></tr>
+            <tr><td class="k">Total Sales</td><td class="v accent" id="p_sales">—</td></tr>
+            <tr><td class="k">— High Ticket Sales</td><td class="v" id="p_htsales">—</td></tr>
+            <tr><td class="k">— Downsell Sales</td><td class="v" id="p_dssales">—</td></tr>
+          </table>
+          <div class="mini-note" style="margin-top:14px;">Underlying decimal precision is retained for every stage (e.g. 22.5 booked calls) so downstream economics stay accurate — only the pipeline diagram rounds for display.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>AVENTIO IO — Growth Operating Agency</span>
+    <span id="footTimestamp"></span>
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmtUSD = (n, decimals=0) => {
+  if (!isFinite(n)) return '—';
+  const sign = n < 0 ? '-' : '';
+  return sign + '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+};
+const fmtPct = (n, decimals=1) => isFinite(n) ? n.toFixed(decimals) + '%' : '—';
+const fmtNum = (n, decimals=0) => isFinite(n) ? n.toLocaleString('en-US', {minimumFractionDigits:decimals, maximumFractionDigits:decimals}) : '—';
+const fmtX = (n) => isFinite(n) ? n.toFixed(2) + 'x' : '—';
+
+const inputIds = ['adSpend','cpr','showRate','bookedCallRate','bookedShowRate','closeRate','htPct','htCash','dsCash','fixed','team','other'];
+
+function getInputs(){
+  const v = id => parseFloat($(id).value) || 0;
+  const htPct = Math.min(100, Math.max(0, v('htPct')));
+  $('dsPct').value = (100 - htPct).toFixed(0);
+  return {
+    adSpend: v('adSpend'),
+    cpr: Math.max(v('cpr'), 0.0001),
+    showRate: v('showRate')/100,
+    bookedCallRate: v('bookedCallRate')/100,
+    bookedShowRate: v('bookedShowRate')/100,
+    closeRate: v('closeRate')/100,
+    htPct: htPct/100,
+    dsPct: (100-htPct)/100,
+    htCash: v('htCash'),
+    dsCash: v('dsCash'),
+    fixed: v('fixed'),
+    team: v('team'),
+    other: v('other'),
+  };
+}
+
+function compute(i){
+  const registrations = i.adSpend / i.cpr;
+  const attendees = registrations * i.showRate;
+  const bookedCalls = attendees * i.bookedCallRate;
+  const attendedCalls = bookedCalls * i.bookedShowRate;
+  const totalSales = attendedCalls * i.closeRate;
+  const htSales = totalSales * i.htPct;
+  const dsSales = totalSales * i.dsPct;
+  const htRevenue = htSales * i.htCash;
+  const dsRevenue = dsSales * i.dsCash;
+  const totalRevenue = htRevenue + dsRevenue;
+  const totalCost = i.adSpend + i.fixed + i.team + i.other;
+  const netProfit = totalRevenue - totalCost;
+  const roas = i.adSpend > 0 ? totalRevenue / i.adSpend : 0;
+  const netRoas = totalCost > 0 ? totalRevenue / totalCost : 0;
+  const cpa = totalSales > 0 ? i.adSpend / totalSales : 0;
+
+  const revPerReg = registrations > 0 ? totalRevenue / registrations : 0;
+  const revPerAtt = attendees > 0 ? totalRevenue / attendees : 0;
+  const revPerBC = bookedCalls > 0 ? totalRevenue / bookedCalls : 0;
+  const revPerAC = attendedCalls > 0 ? totalRevenue / attendedCalls : 0;
+  const avgRevPerSale = totalSales > 0 ? totalRevenue / totalSales : 0;
+
+  const costPerReg = i.cpr;
+  const costPerAtt = attendees > 0 ? i.adSpend / attendees : 0;
+  const costPerBC = bookedCalls > 0 ? i.adSpend / bookedCalls : 0;
+  const costPerAC = attendedCalls > 0 ? i.adSpend / attendedCalls : 0;
+
+  const contribRevPerSale = i.htPct * i.htCash + i.dsPct * i.dsCash;
+  const totalNonAdCosts = i.fixed + i.team + i.other;
+  const maxAllowableCPA = contribRevPerSale;
+  const marginPerReg = revPerReg - costPerReg;
+  const breakEvenRegs = (totalNonAdCosts > 0 && marginPerReg > 0) ? totalNonAdCosts / marginPerReg : 0;
+  const breakEvenAdSpend = breakEvenRegs * costPerReg;
+
+  return {registrations, attendees, bookedCalls, attendedCalls, totalSales, htSales, dsSales,
+    htRevenue, dsRevenue, totalRevenue, totalCost, netProfit, roas, netRoas, cpa,
+    revPerReg, revPerAtt, revPerBC, revPerAC, avgRevPerSale,
+    costPerReg, costPerAtt, costPerBC, costPerAC,
+    contribRevPerSale, totalNonAdCosts, maxAllowableCPA, breakEvenRegs, breakEvenAdSpend};
+}
+
+function buildFunnelSvg(i, m){
+  const cx = 240, cy = 230;
+  const maxR = 190;
+  const stages = [
+    {key:'reg', label:'REGISTRATIONS', value:m.registrations, color:'var(--ring1)', pct:null},
+    {key:'att', label:'ATTENDEES', value:m.attendees, color:'var(--ring2)', pct:i.showRate*100},
+    {key:'bc',  label:'BOOKED CALLS', value:m.bookedCalls, color:'var(--ring3)', pct:i.bookedCallRate*100},
+    {key:'ac',  label:'ATTENDED CALLS', value:m.attendedCalls, color:'var(--ring4)', pct:i.bookedShowRate*100},
+    {key:'sales', label:'SALES', value:m.totalSales, color:null, pct:i.closeRate*100},
+  ];
+  const maxV = Math.max(m.registrations, 0.0001);
+  stages.forEach(s => { s.r = Math.max(14, maxR * Math.sqrt(s.value / maxV)); });
+
+  const angles = [-90, -18, 54, 126, 198]; // degrees, clockwise from top
+  const labelR = 245;
+
+  let svg = '';
+  // rings, largest first
+  stages.forEach((s, idx) => {
+    if (s.key === 'sales'){
+      // split pie for HT / downsell within the sales circle
+      const r = s.r;
+      const htFrac = i.htPct;
+      const startAngle = -90 * Math.PI/180;
+      const htAngle = startAngle + htFrac * 2*Math.PI;
+      const arc = (a0, a1, color) => {
+        const x0 = cx + r*Math.cos(a0), y0 = cy + r*Math.sin(a0);
+        const x1 = cx + r*Math.cos(a1), y1 = cy + r*Math.sin(a1);
+        const large = (a1-a0) > Math.PI ? 1 : 0;
+        return `<path d="M ${cx} ${cy} L ${x0} ${y0} A ${r} ${r} 0 ${large} 1 ${x1} ${y1} Z" fill="${color}" stroke="#0a0a0c" stroke-width="1.5"/>`;
+      };
+      svg += arc(startAngle, htAngle, 'var(--orange)');
+      svg += arc(htAngle, startAngle + 2*Math.PI, 'var(--amber)');
+      svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#0a0a0c" stroke-width="2"/>`;
+    } else {
+      svg += `<circle cx="${cx}" cy="${cy}" r="${s.r}" fill="${s.color}" stroke="#0a0a0c" stroke-width="2"/>`;
+    }
+  });
+
+  // center readout
+  svg += `<text x="${cx}" y="${cy-6}" text-anchor="middle" class="center-label" font-size="15">${fmtNum(m.totalSales,1)}</text>`;
+  svg += `<text x="${cx}" y="${cy+11}" text-anchor="middle" class="center-sub" font-size="9">SALES</text>`;
+
+  // leader lines + labels
+  stages.forEach((s, idx) => {
+    const a = angles[idx] * Math.PI/180;
+    const edgeR = s.key === 'sales' ? s.r : s.r;
+    const x0 = cx + edgeR*Math.cos(a), y0 = cy + edgeR*Math.sin(a);
+    const x1 = cx + labelR*Math.cos(a), y1 = cy + labelR*Math.sin(a);
+    const anchor = Math.cos(a) > 0.15 ? 'start' : (Math.cos(a) < -0.15 ? 'end' : 'middle');
+    const dx = Math.cos(a) > 0.15 ? 6 : (Math.cos(a) < -0.15 ? -6 : 0);
+    svg += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="#4a4650" stroke-width="1" stroke-dasharray="2,3"/>`;
+    svg += `<circle cx="${x0}" cy="${y0}" r="2.5" fill="var(--amber)"/>`;
+    svg += `<text x="${x1+dx}" y="${y1-8}" text-anchor="${anchor}" class="stage-label">${s.label}</text>`;
+    svg += `<text x="${x1+dx}" y="${y1+8}" text-anchor="${anchor}" class="stage-value">${fmtNum(s.value,1)}</text>`;
+    if (s.pct !== null){
+      svg += `<text x="${x1+dx}" y="${y1+22}" text-anchor="${anchor}" class="stage-pct">${s.pct.toFixed(1)}% of prior</text>`;
+    }
+  });
+
+  $('funnelSvg').setAttribute('viewBox','0 0 480 460');
+  $('funnelSvg').innerHTML = svg;
+}
+
+function buildLegend(i, m){
+  const rows = [
+    {name:'Ad Spend', val: fmtUSD(i.adSpend), color:'#3a3a3a'},
+    {name:'Registrations', val: fmtNum(m.registrations,0), color:'var(--ring1)'},
+    {name:'Attendees', val: fmtNum(m.attendees,0), color:'var(--ring2)'},
+    {name:'Booked Calls', val: fmtNum(m.bookedCalls,0), color:'var(--ring3)'},
+    {name:'Attended Calls', val: fmtNum(m.attendedCalls,0), color:'var(--ring4)'},
+    {name:'Total Sales', val: fmtNum(m.totalSales,1), color:'var(--orange)'},
+  ];
+  $('sideLegend').innerHTML = rows.map(r => `
+    <div class="legend-row">
+      <div class="swatch" style="background:${r.color}"></div>
+      <div class="legend-text">
+        <div class="legend-name">${r.name}</div>
+      </div>
+      <div class="legend-val">${r.val}</div>
+    </div>`).join('');
+}
+
+function render(){
+  const i = getInputs();
+  const m = compute(i);
+
+  // live input labels
+  $('lbl_adSpend').textContent = fmtUSD(i.adSpend);
+  $('lbl_cpr').textContent = fmtUSD(i.cpr, 2);
+  $('lbl_showRate').textContent = fmtPct(i.showRate*100);
+  $('lbl_bookedCallRate').textContent = fmtPct(i.bookedCallRate*100);
+  $('lbl_bookedShowRate').textContent = fmtPct(i.bookedShowRate*100);
+  $('lbl_closeRate').textContent = fmtPct(i.closeRate*100);
+  $('lbl_htPct').textContent = fmtPct(i.htPct*100);
+  $('lbl_dsPct').textContent = fmtPct(i.dsPct*100);
+  $('lbl_htCash').textContent = fmtUSD(i.htCash);
+  $('lbl_dsCash').textContent = fmtUSD(i.dsCash);
+  $('lbl_fixed').textContent = fmtUSD(i.fixed);
+  $('lbl_team').textContent = fmtUSD(i.team);
+  $('lbl_other').textContent = fmtUSD(i.other);
+
+  // stat strip
+  $('statRevenue').textContent = fmtUSD(m.totalRevenue);
+  $('statProfit').textContent = fmtUSD(m.netProfit);
+  $('statProfit').className = 'stat-value ' + (m.netProfit >= 0 ? 'green' : 'red');
+  $('statProfitFoot').textContent = `Revenue − ${fmtUSD(m.totalCost)} total cost`;
+  $('statRoas').textContent = fmtX(m.roas);
+  $('statRoasFoot').textContent = `Net ROAS ${fmtX(m.netRoas)}`;
+  $('statCpa').textContent = fmtUSD(m.cpa);
+
+  // financial summary table
+  $('t_revenue').textContent = fmtUSD(m.totalRevenue);
+  $('t_adspend').textContent = fmtUSD(i.adSpend);
+  $('t_fixed').textContent = fmtUSD(i.fixed);
+  $('t_team').textContent = fmtUSD(i.team);
+  $('t_other').textContent = fmtUSD(i.other);
+  $('t_totalcost').textContent = fmtUSD(m.totalCost);
+  $('t_netprofit').textContent = fmtUSD(m.netProfit);
+  $('t_roas').textContent = fmtX(m.roas);
+  $('t_netroas').textContent = fmtX(m.netRoas);
+  $('t_rpr').textContent = fmtUSD(m.revPerReg);
+  $('t_rpa').textContent = fmtUSD(m.revPerAtt);
+  $('t_rpbc').textContent = fmtUSD(m.revPerBC);
+  $('t_rpac').textContent = fmtUSD(m.revPerAC);
+  $('t_avgrev').textContent = fmtUSD(m.avgRevPerSale);
+
+  // unit economics
+  $('u_reg').textContent = fmtUSD(m.costPerReg, 2);
+  $('u_att').textContent = fmtUSD(m.costPerAtt);
+  $('u_bc').textContent = fmtUSD(m.costPerBC);
+  $('u_ac').textContent = fmtUSD(m.costPerAC);
+  $('u_cpa').textContent = fmtUSD(m.cpa);
+
+  // break-even
+  $('b_contrib').textContent = fmtUSD(m.contribRevPerSale);
+  $('b_nonad').textContent = fmtUSD(m.totalNonAdCosts);
+  $('b_maxcpa').textContent = fmtUSD(m.maxAllowableCPA);
+  $('b_beadspend').textContent = fmtUSD(m.breakEvenAdSpend);
+  $('b_bereg').textContent = fmtNum(m.breakEvenRegs, 1);
+
+  // pipeline counts
+  $('p_reg').textContent = fmtNum(m.registrations);
+  $('p_att').textContent = fmtNum(m.attendees);
+  $('p_bc').textContent = fmtNum(m.bookedCalls);
+  $('p_ac').textContent = fmtNum(m.attendedCalls);
+  $('p_sales').textContent = fmtNum(m.totalSales, 1);
+  $('p_htsales').textContent = fmtNum(m.htSales, 1);
+  $('p_dssales').textContent = fmtNum(m.dsSales, 1);
+
+  // revenue mix
+  const htShare = m.totalRevenue > 0 ? (m.htRevenue/m.totalRevenue*100) : 0;
+  const dsShare = 100 - htShare;
+  $('mixHtBar').style.width = htShare + '%';
+  $('mixDsBar').style.width = dsShare + '%';
+  $('mixHtVal').textContent = fmtUSD(m.htRevenue) + ` (${htShare.toFixed(0)}%)`;
+  $('mixDsVal').textContent = fmtUSD(m.dsRevenue) + ` (${dsShare.toFixed(0)}%)`;
+  $('revenueMixTag').textContent = fmtUSD(m.totalRevenue) + ' total';
+
+  buildFunnelSvg(i, m);
+  buildLegend(i, m);
+}
+
+inputIds.forEach(id => $(id).addEventListener('input', render));
+$('footTimestamp').textContent = 'Model generated ' + new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
+
+render();
+</script>
+</body>
+</html>
